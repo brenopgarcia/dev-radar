@@ -97,7 +97,7 @@ module.exports = {
   async destroy(request, response) {
     const { id } = request.params;
 
-    let dev = await Dev.findOneAndDelete(id);
+    let dev = await Dev.findOneAndDelete({_id: id});
 
     if (!dev)
       return response.status(400).json({ error: "Dev cannot be found." });
