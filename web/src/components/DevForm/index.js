@@ -5,11 +5,13 @@ import { MdMyLocation } from "react-icons/md";
 
 import "./styles.css";
 
-export default function DevForm({ onSubmit }) {
-  const [github_username, setGithub_username] = useState("");
+export default function DevForm({ onSubmit, onEdit }) {
+  const [githubUsername, setGithubUsername] = useState("");
   const [techs, setTechs] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -27,16 +29,48 @@ export default function DevForm({ onSubmit }) {
     );
   }, []);
 
+  useEffect(() => {
+    setEdit(true);
+    const { techs, github_username } = onEdit;
+
+    setTechs(onEdit ? techs : "");
+    setGithubUsername(onEdit ? github_username : "");
+  }, [onEdit]);
+
   async function handleSubmit(e) {
     e.preventDefault();
-    await onSubmit({ github_username, techs, latitude, longitude });
+    await onSubmit({
+      github_username: githubUsername,
+      techs,
+      latitude,
+      longitude,
+    });
+    
+    setEdit(false)
 
-    setGithub_username("");
+    setGithubUsername("");
+    setTechs("");
+  }
+
+  async function handleEdit(e) {
+    
+    const { _id } = onEdit;
+
+    e.preventDefault();
+
+    await onSubmit({
+      github_username: githubUsername,
+      techs,
+      _id,
+    });
+
+    setEdit(false)
+    setGithubUsername("");
     setTechs("");
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={!edit ? handleSubmit : handleEdit}>
       <div className="input-block">
         <label htmlFor="github_username">
           <FaGithub color="#444" size={20} />
@@ -45,9 +79,9 @@ export default function DevForm({ onSubmit }) {
           name="github_username"
           id="github_username"
           required
-          value={github_username}
+          value={githubUsername || ""}
           placeholder="Seu utilizador no Github"
-          onChange={(e) => setGithub_username(e.target.value)}
+          onChange={(e) => setGithubUsername(e.target.value)}
         />
       </div>
       <div className="input-block">
@@ -58,7 +92,7 @@ export default function DevForm({ onSubmit }) {
           name="techs"
           id="techs"
           required
-          value={techs}
+          value={techs || ""}
           placeholder="Tecnologias que você domina"
           onChange={(e) => setTechs(e.target.value)}
         />

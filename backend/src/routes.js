@@ -14,4 +14,9 @@ routes.delete("/devs/:id", DevController.destroy);
 
 routes.get("/search", SearchController.index);
 
+routes.put("/devs/:id/locations/:id", async function (request, response) {
+
+
+})
+
 module.exports = routes;

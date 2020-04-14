@@ -44,10 +44,12 @@ module.exports = {
           location,
         });
       } catch (error) {
-        if(error.message === 'Request failed with status code 404')
-          return response.status(404).json({ error: 'Github username does not exists.'});
-        
-        return response.status(400).json(error)
+        if (error.message === "Request failed with status code 404")
+          return response
+            .status(404)
+            .json({ error: "Github username does not exists." });
+
+        return response.status(400).json(error);
       }
     }
 
@@ -56,9 +58,11 @@ module.exports = {
 
   async update(request, response) {
     const { id } = request.params;
-    const { github_username, techs, longitude, latitude } = request.body;
+    const { github_username, techs, ...rest } = request.body;
 
     let dev = await Dev.findById(id);
+
+    if (github_username === undefined) return;
 
     if (dev.github_username !== github_username)
       return response
@@ -77,15 +81,13 @@ module.exports = {
 
       const techsArray = parseStringAsArray(techs);
 
-      const location = setLocation(longitude, latitude);
-
       await Dev.findByIdAndUpdate(id, {
         github_username,
         name,
         avatar_url,
         bio,
         techs: techsArray,
-        location,
+        ...rest
       });
 
       dev = await Dev.findById(id);
@@ -97,7 +99,7 @@ module.exports = {
   async destroy(request, response) {
     const { id } = request.params;
 
-    let dev = await Dev.findOneAndDelete({_id: id});
+    let dev = await Dev.findOneAndDelete({ _id: id });
 
     if (!dev)
       return response.status(400).json({ error: "Dev cannot be found." });

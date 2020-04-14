@@ -1,5 +1,4 @@
-
-li.dev-item{
+li.dev-item {
   background: #fff;
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.02);
   border-radius: 2px;
@@ -12,30 +11,24 @@ li.dev-item header {
   align-items: center;
 }
 
-li.dev-item header img {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-}
-
-li.dev-item header .user-info{
+li.dev-item header .user-info {
   margin-left: 10px;
   width: 100%;
 }
 
-.user-info strong{
+.user-info strong {
   display: block;
   font-size: 16px;
   color: #333;
 }
 
-.user-info span{
+.user-info span {
   font-size: 13px;
   color: #999;
   margin-top: 2px;
 }
 
-li.dev-item p{
+li.dev-item p {
   color: #666;
   font-size: 14px;
   line-height: 20px;
@@ -53,19 +46,19 @@ li.dev-item a:hover {
 }
 
 li.dev-item header .user-delete {
-  
   position: relative;
   cursor: pointer;
 }
 
-.icon-edit {
+button.icon-edit {
   position: relative;
   color: #8e4dff;
   display: flex;
   justify-content: flex-end;
-  transform: translateY(-55px);
+  transform: translateY(-55px) translateX(315px);
   margin-bottom: -15px;
   cursor: pointer;
+  border: 0;
 }
 
 button.icon-remove {
@@ -77,4 +70,10 @@ button.icon-remove {
   margin-bottom: -40px;
   cursor: pointer;
   border: 0;
+}
+
+li.dev-item header img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
 }

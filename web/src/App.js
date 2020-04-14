@@ -13,6 +13,8 @@ import DevForm from "./components/DevForm";
 
 function App() {
   const [devs, setDevs] = useState([]);
+  const [activeEdit, setActiveEdit] = useState(false);
+  const [editDev, setEditDev] = useState({});
 
   useEffect(() => {
     async function loadDevs() {
@@ -35,13 +37,32 @@ function App() {
     }
   }
 
-  async function handleDeleteDev(id) {
+  async function handleUpdateDev(dev) {
+    const { _id, github_username, techs } = dev;
+    try {
+      await api.put(`/devs/${_id}`, {
+        techs: Array.isArray(techs) ? techs.join() : techs,
+        github_username,
+      });
+      setDevs([...devs]);
+      setActiveEdit(false);
+
+      toast(`Dev ${dev.name ? dev.name : dev.github_username} alterado com sucesso.`);
+    } catch (error){
+      toast(`Erro ao alterar o dev ${dev.name}.`)
+    }
+  }
+
+  async function handleEditDev(dev) {
+    setActiveEdit(true);
+    setEditDev(dev);
+  }
+
+  async function handleDeleteDev(id, name) {
     try {
       await api.delete(`/devs/${id}`);
-      
-      console.log(setDevs(devs.filter((dev) => dev._id !== id)))
 
-      toast("Dev removido.");
+      toast(`Dev ${name} removido.`);
     } catch {
       toast.error("Erro ao remover o dev.", {
         closeButton: false,
@@ -52,8 +73,11 @@ function App() {
   return (
     <div id="app">
       <aside>
-        <strong>Registar</strong>
-        <DevForm onSubmit={handleAddDev} />
+        <strong>{activeEdit ? 'Editar' : 'Registar'}</strong>
+        <DevForm
+          onSubmit={activeEdit ? handleUpdateDev : handleAddDev}
+          onEdit={editDev}
+        />
       </aside>
       <main>
         <ul>
@@ -62,7 +86,7 @@ function App() {
               dev={dev}
               key={dev._id}
               onDelete={handleDeleteDev}
-              // onEdit={handleEditDev}
+              onEdit={handleEditDev}
             />
           ))}
         </ul>
