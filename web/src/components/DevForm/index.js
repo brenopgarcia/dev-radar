@@ -14,6 +14,14 @@ export default function DevForm({ onSubmit, onEdit }) {
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
+    setEdit(true);
+    const { techs, github_username } = onEdit;
+
+    setTechs(onEdit ? techs : "");
+    setGithubUsername(onEdit ? github_username : "");
+  }, [onEdit]);
+
+  useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
@@ -27,15 +35,8 @@ export default function DevForm({ onSubmit, onEdit }) {
         setTimeout: 30000,
       }
     );
+    setEdit(false)
   }, []);
-
-  useEffect(() => {
-    setEdit(true);
-    const { techs, github_username } = onEdit;
-
-    setTechs(onEdit ? techs : "");
-    setGithubUsername(onEdit ? github_username : "");
-  }, [onEdit]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -47,7 +48,6 @@ export default function DevForm({ onSubmit, onEdit }) {
     });
     
     setEdit(false)
-
     setGithubUsername("");
     setTechs("");
   }
@@ -80,7 +80,7 @@ export default function DevForm({ onSubmit, onEdit }) {
           id="github_username"
           required
           value={githubUsername || ""}
-          placeholder="Seu utilizador no Github"
+          placeholder="Dev github username"
           onChange={(e) => setGithubUsername(e.target.value)}
         />
       </div>
@@ -93,7 +93,7 @@ export default function DevForm({ onSubmit, onEdit }) {
           id="techs"
           required
           value={techs || ""}
-          placeholder="Tecnologias que você domina"
+          placeholder="Techs you code"
           onChange={(e) => setTechs(e.target.value)}
         />
       </div>
@@ -131,7 +131,7 @@ export default function DevForm({ onSubmit, onEdit }) {
           </div>
         </div>
       </div>
-      <button type="submit">Salvar</button>
+      <button type="submit">Save</button>
     </form>
   );
 }

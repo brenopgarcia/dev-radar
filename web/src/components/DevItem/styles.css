@@ -3,6 +3,7 @@ li.dev-item {
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.02);
   border-radius: 2px;
   padding: 20px;
+  min-height: 173px;
 }
 
 li.dev-item header {
@@ -33,16 +34,20 @@ li.dev-item p {
   font-size: 14px;
   line-height: 20px;
   margin: 10px 0;
+  display: block;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 li.dev-item a {
-  color: #8e4dff;
+  color: #071CB7;
   font-size: 14px;
-  text-decoration: none;
+  text-decoration: none;  
 }
 
 li.dev-item a:hover {
-  color: #5a2ea6;
+  color: #1832F3;
 }
 
 li.dev-item header .user-delete {
@@ -50,30 +55,136 @@ li.dev-item header .user-delete {
   cursor: pointer;
 }
 
-button.icon-edit {
-  position: relative;
-  color: #8e4dff;
+.icon-edit {
+  position: absolute;
+  color: #362197;
   display: flex;
   justify-content: flex-end;
-  transform: translateY(-55px) translateX(315px);
+  transform: translateY(-55px);
   margin-bottom: -15px;
   cursor: pointer;
-  border: 0;
+  margin-left: 320px;
+}
+.icon-edit:hover {
+  color: #1832F3;
 }
 
-button.icon-remove {
-  position: relative;
+.icon-remove {
+  position: absolute;
   color: #cc0000;
   display: flex;
   justify-content: flex-end;
-  transform: translateY(45px) translateX(315px);
-  margin-bottom: -40px;
+  transform: translateY(55px);
   cursor: pointer;
-  border: 0;
+  margin-left: 320px;
+}
+
+.icon-star {
+  position: absolute;
+  color: #D8D523;
+  /* display: flex;
+  justify-content: flex-end; */
+  transform: translateY(-55px);
+  margin-bottom: -15px;
+  margin-left: 320px;
 }
 
 li.dev-item header img {
   width: 54px;
   height: 54px;
   border-radius: 50%;
+}
+
+@media (max-width: 1024px){
+  .icon-star {
+    margin-left: 235px;
+  }
+
+  .icon-edit {
+    margin-left: 235px;
+  }
+  
+  .icon-remove {
+    margin-left: 235px;
+  }
+}
+
+@media (max-width: 768px){
+  .icon-star {
+    margin-left: 280px;
+  }
+
+  .icon-edit {
+    margin-left: 280px;
+  }
+  
+  .icon-remove {
+    margin-left: 280px;
+  }
+}
+
+@media (max-width: 414px){
+  .icon-star {
+    margin-left: 290px;
+  }
+
+  .icon-edit {
+    margin-left: 290px;
+  }
+  
+  .icon-remove {
+    margin-left: 290px;
+  }
+}
+
+@media (max-width: 375px){
+  .icon-star {
+    margin-left: 250px;
+  }
+
+  .icon-edit {
+    margin-left: 250px;
+  }
+  
+  .icon-remove {
+    margin-left: 250px;
+  }
+}
+
+@media (max-width: 360px){
+
+  .user-info strong{
+    font-size: 14px;
+  }
+  .icon-star {
+    margin-left: 240px;
+  }
+
+  .icon-edit {
+    margin-left: 240px;
+  }
+  
+  .icon-remove {
+    margin-left: 240px;
+  }
+
+}
+
+@media (max-width: 320px){
+
+  .user-info strong{
+    font-size: 14px;
+  }
+  .icon-star {
+    margin-left: 200px;
+  }
+
+  .icon-edit {
+    margin-left: 200px;
+  }
+  
+  .icon-remove {
+    margin-left: 200px;
+  }
+
 }

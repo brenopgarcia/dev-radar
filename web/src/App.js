@@ -29,9 +29,9 @@ function App() {
       const response = await api.post("/devs", data);
       setDevs([...devs, response.data]);
 
-      toast(`Dev ${response.data.name} registado.`);
-    } catch {
-      toast.error(`Erro ao registar o dev.`, {
+      toast(`Dev ${response.data.name} was registered.`);
+    } catch (err) {
+      toast.error(`Error to register the dev.`, {
         closeButton: false,
       });
     }
@@ -47,9 +47,9 @@ function App() {
       setDevs([...devs]);
       setActiveEdit(false);
 
-      toast(`Dev ${dev.name ? dev.name : dev.github_username} alterado com sucesso.`);
-    } catch (error){
-      toast(`Erro ao alterar o dev ${dev.name}.`)
+      toast(`Dev ${dev.name ? dev.name : dev.github_username} was updated.`);
+    } catch (error) {
+      toast(`Something went wrong to remove ${dev.name}.`);
     }
   }
 
@@ -62,9 +62,9 @@ function App() {
     try {
       await api.delete(`/devs/${id}`);
 
-      toast(`Dev ${name} removido.`);
+      toast(`Dev ${name} was removed.`);
     } catch {
-      toast.error("Erro ao remover o dev.", {
+      toast.error("Dev cannot be removed.", {
         closeButton: false,
       });
     }
@@ -73,9 +73,9 @@ function App() {
   return (
     <div id="app">
       <aside>
-        <strong>{activeEdit ? 'Editar' : 'Registar'}</strong>
+        <strong>{!activeEdit ? "Register" : "Edit"}</strong>
         <DevForm
-          onSubmit={activeEdit ? handleUpdateDev : handleAddDev}
+          onSubmit={!activeEdit ? handleAddDev : handleUpdateDev}
           onEdit={editDev}
         />
       </aside>

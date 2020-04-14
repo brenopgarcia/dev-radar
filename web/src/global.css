@@ -12,14 +12,10 @@ html, body, #root {
 }
 
 body{
-  background: #e5e6f0;
+  background: #ddd ;
   -webkit-font-smoothing: antialiased !important;
 }
 
 body, input, button {
   font-family: Roboto, sans-serif;
-}
-
-#iconMd {
-  background-color: #fff;
 }
