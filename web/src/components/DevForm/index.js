@@ -93,7 +93,7 @@ export default function DevForm({ onSubmit, onEdit }) {
           id="techs"
           required
           value={techs || ""}
-          placeholder="Techs you code"
+          placeholder="Techs you know how to code"
           onChange={(e) => setTechs(e.target.value)}
         />
       </div>

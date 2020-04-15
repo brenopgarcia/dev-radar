@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { MdCancel } from "react-icons/md";
 
 import api from "./services/api";
 
@@ -29,7 +30,7 @@ function App() {
       const response = await api.post("/devs", data);
       setDevs([...devs, response.data]);
 
-      toast(`Dev ${response.data.name} was registered.`);
+      toast.success(`Dev ${response.data.name} was registered.`);
     } catch (err) {
       toast.error(`Error to register the dev.`, {
         closeButton: false,
@@ -47,9 +48,9 @@ function App() {
       setDevs([...devs]);
       setActiveEdit(false);
 
-      toast(`Dev ${dev.name ? dev.name : dev.github_username} was updated.`);
+      toast.success(`Dev ${dev.name ? dev.name : dev.github_username} was updated.`);
     } catch (error) {
-      toast(`Something went wrong to remove ${dev.name}.`);
+      toast.error(`Something went wrong to remove ${dev.name}.`);
     }
   }
 
@@ -58,11 +59,16 @@ function App() {
     setEditDev(dev);
   }
 
+  async function cancelEditDev() {
+    setActiveEdit(false);
+    setEditDev({});
+  }
+
   async function handleDeleteDev(id, name) {
     try {
       await api.delete(`/devs/${id}`);
 
-      toast(`Dev ${name} was removed.`);
+      toast.info(`Dev ${name} was removed.`);
     } catch {
       toast.error("Dev cannot be removed.", {
         closeButton: false,
@@ -74,6 +80,7 @@ function App() {
     <div id="app">
       <aside>
         <strong>{!activeEdit ? "Register" : "Edit"}</strong>
+        <div id="icon-cancel">{activeEdit ? <MdCancel onClick={cancelEditDev} size={28} color="red"/> : ""}</div>
         <DevForm
           onSubmit={!activeEdit ? handleAddDev : handleUpdateDev}
           onEdit={editDev}

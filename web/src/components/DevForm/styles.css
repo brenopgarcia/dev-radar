@@ -72,3 +72,7 @@ aside form button[type=submit]{
 aside form button[type=submit]:hover{
   background: #1832F3;
 }
+
+MdCancel {
+  transform: translateY(-25px);
+}
