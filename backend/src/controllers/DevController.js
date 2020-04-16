@@ -1,7 +1,7 @@
 const axios = require("axios");
 const Dev = require("../models/Dev");
 const parseStringAsArray = require("../utils/parseStringAsArray");
-const setLocation = require("../utils/setLocation");
+const { findConnections, sendMessage } = require("../websocket");
 
 module.exports = {
   async index(request, response) {
@@ -33,7 +33,10 @@ module.exports = {
 
         const techsArray = parseStringAsArray(techs);
 
-        const location = setLocation(longitude, latitude);
+        const location = {
+          type: "Point",
+          coordinates: [longitude, latitude],
+        };
 
         dev = await Dev.create({
           github_username,
@@ -43,6 +46,15 @@ module.exports = {
           techs: techsArray,
           location,
         });
+
+        // Filter connections far away 10km distance and dev has tech on search
+        const sendSocketMessageTo = findConnections(
+          { latitude, longitude },
+          techsArray
+        );
+
+        sendMessage(sendSocketMessageTo, 'new-dev', dev);
+        
       } catch (error) {
         if (error.message === "Request failed with status code 404")
           return response
@@ -87,7 +99,7 @@ module.exports = {
         avatar_url,
         bio,
         techs: techsArray,
-        ...rest
+        ...rest,
       });
 
       dev = await Dev.findById(id);
